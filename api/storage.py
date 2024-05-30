@@ -21,7 +21,7 @@ class Storage:
     
     def export_to_csv(self):
         """export the coordinates to csv"""
-        with open('coordinates.csv', 'w', newline='') as file_obj:
+        with open('spheres30%.csv', 'w', newline='') as file_obj:
             writer = csv.writer(file_obj)
             writer.writerow(['label', 'x', 'y', 'z', 'r'])
             [writer.writerow([i+1] + row) for i, row in enumerate(self.spheres)]

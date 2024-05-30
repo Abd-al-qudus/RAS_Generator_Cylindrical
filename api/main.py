@@ -7,7 +7,7 @@ from visualizer import Visualizer
 # d = [4.75, 9.50, 12.70, 19.00]
 # d = [4.75, 7.125, 9.50, 11.10, 12.70, 15.85, 19.00]
 # d = [2.00, 4.00, 6.00, 8.00]
-d = [2.36, 4.75, 9.50, 12.70, 19.00]
+d = [2.36, 4.75, 9.50, 12.70]
 # p = [0, 26, 77, 100]
 
 # p = [1.4, 10, 61, 97, 100]
@@ -19,7 +19,7 @@ storage = Storage()
 print('initiating configurations')
 config = Configuration(
     d,
-    0.35,
+    0.30,
     0.5,
     0.15,
     x_min=0,
