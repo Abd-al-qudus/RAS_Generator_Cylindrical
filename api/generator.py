@@ -39,12 +39,12 @@ class Generator:
         volume = volume[-1::-1]
         return volume
     
-    def generate_sphere(self, d, x_min, x_max, y_min, y_max, z_min, z_max):
+    def generate_sphere(self, d, rad, h):
         """generate polyhedrons faces"""
         r = (min(d) / 2) + random.uniform(0, 1) * ((max(d)/ 2) - (min(d) / 2))
-        x_o = x_min + random.uniform(0, 1) * (x_max - x_min)
-        y_o = y_min + random.uniform(0, 1) * (y_max - y_min)
-        z_o = z_min + random.uniform(0, 1) * (z_max - z_min)
+        x_o = random.uniform(0, 1) * rad * 2
+        y_o = random.uniform(0, 1) * rad * 2
+        z_o = random.uniform(0, 1) * h
         return [x_o, y_o, z_o, r]
 
     def wrapper(self):
@@ -69,22 +69,14 @@ class Generator:
             while vc <= v['volume']:
                 result = self.generate_sphere(
                     v['diameters'],
-                    self.config.x_min,
-                    self.config.x_max,
-                    self.config.y_min,
-                    self.config.y_max,
-                    self.config.z_min,
-                    self.config.z_max)
+                    self.config.rad,
+                    self.config.height)
 
                 p_vol = 4 * (math.pi * (result[3]**3)) / 3
                 if len(self.storage.spheres) > 0:
                     if self.check(result,  
-                        [self.config.x_min,
-                        self.config.x_max,
-                        self.config.y_min,
-                        self.config.y_max,
-                        self.config.z_min,
-                        self.config.z_max],
+                        self.config.rad,
+                        self.config.height,
                         self.storage.spheres,
                         self.config.sd).init_all_checks():
                         self.storage.store_spheres(result)
@@ -94,7 +86,12 @@ class Generator:
                     else:
                         continue
                 else:
-                    self.storage.store_spheres(result)
+                    if self.check(result,  
+                        self.config.rad,
+                        self.config.height,
+                        self.storage.spheres,
+                        self.config.sd).init_check_sphere_in_bound():
+                        self.storage.store_spheres(result)
             if v['volume'] - vc + vl > 0:
                 vr += v['volume'] - vc + vl
             del self.storage.spheres[-1]
